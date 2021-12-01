@@ -1,0 +1,4 @@
+.cards__grid-item {
+    display: flex;
+    flex-direction: column;
+}

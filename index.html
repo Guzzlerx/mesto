@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mesto</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="body">
+    <div class="page">
+        <header class="header">
+            <img class="header__logo" alt="Логотип сайта" src="./images/Mesto-header-logo.png">
+        </header>
+
+        <main class="content">
+            <section class="profile">
+                <div class="profile__container">
+                    <img class="profile__avatar" alt="Фотография пользователя" src="./images/Kusto.jpg">
+                    <div class="profile__info">
+                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <button type="button" class="profile__button-edit-info"></button>
+                        <p class="profile__description">Исследователь океана</p>
+                    </div>
+                </div>
+                <button type="button" class="profile__button-add-picture"></button>
+            </section>
+
+            <section class="cards">
+                <ul class="cards__grid-list">
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/There%20are%20more%20sheep%20than%20people%20in%20the%20Faroe%20Islands.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">There are more sheeps</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/Night%20sky%20at%20夏塔古道.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">Night sky</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/A%20very%20small%20model.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">A small model</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/A%20walk%20in%20the%20quiet%20woods.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">Quiet woods</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/Old%20Salmon%20River.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">Salmon River</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                    <li class="cards__grid-item">
+                        <img class="cards__photo" alt="Фотография" src="./images/The%20lonely%20island.jpg">
+                        <article class="cards__caption">
+                            <h2 class="cards__title">The lonely island</h2>
+                            <button type="button" class="cards__like"></button>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+
+            <footer class="footer">
+                <p class="footer__text-copyright">© 2021. Pasynkov Andrew</p>
+            </footer>
+        </main>
+    </div>
+
+    <div class="popup popup_off">
+        <form class="popup__container">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input class="popup__input popup__input_type_name" type="text">
+            <input class="popup__input popup__input_type_description" type="text">
+            <button type="button" class="popup__button-close"></button>
+            <button class="popup__button-save" type="submit">Сохранить</button>
+        </form>
+    </div>
+
+    <script src="./script/script.js"></script>
+</body>
+</html>
