@@ -2,7 +2,7 @@
     display: flex;
     margin: 0 200px 40px;
     padding-top: 45px;
-    border-bottom: 1px solid rgba(84, 84, 84, 1);
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
     align-items: flex-start;
 }
 

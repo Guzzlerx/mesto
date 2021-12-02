@@ -29,14 +29,3 @@ function formSubmitHandler (evt) {
 }
 
 formProfile.addEventListener('submit', formSubmitHandler);
-
-buttonLike = content.querySelectorAll('.cards__like');
-
-buttonLike.forEach(item =>{
-    item.addEventListener('click', function () {
-        item.classList.toggle('cards__like_active');
-    })
-})
-
-
-
