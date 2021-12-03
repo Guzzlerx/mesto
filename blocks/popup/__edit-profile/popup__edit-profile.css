@@ -1,0 +1,13 @@
+.popup__edit-profile {
+    padding: 34px 36px 37px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+@media screen and (max-width: 720px){
+    .popup__edit-profile {
+        padding: 25px 22px;
+    }
+}

@@ -6,9 +6,6 @@
     width: 24px;
     height: 24px;
     border: solid 1px white;
-    position: absolute;
-    right: 0;
-    top: 15px;
     transition: opacity .4s ease-in;
     background-color: #000;
     padding: 0;

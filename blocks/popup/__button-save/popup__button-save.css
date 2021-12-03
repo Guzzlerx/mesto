@@ -7,6 +7,8 @@
     line-height: 1.21;
     padding: 0;
     transition: opacity .4s ease-in;
+    border-radius: 2px;
+    margin-top: 18px;
 }
 
 .popup__button-save:hover {
@@ -16,7 +18,8 @@
 
 @media screen and (max-width: 720px) {
     .popup__button-save {
-        height: 46px;
+        height: 50px;
         font-size: 14px;
+        margin-top: 13px;
     }
 }
