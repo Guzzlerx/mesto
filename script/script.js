@@ -1,34 +1,17 @@
-let content = document.querySelector('.content');
-let buttonEditProfile = content.querySelector('.profile__button-edit-info');  // кнопка редактирования профиля
-let popup = document.querySelector('.popup');   // выбор модалки
-let buttonCloseProfile = popup.querySelector('.popup__button-close');  // кнопка закрытия попапа
-let formProfile = document.querySelector('.popup__form')   // форма профиля
-let profileName = content.querySelector('.profile__name');
-let profileDescription = content.querySelector('.profile__description');
-let inputName = formProfile.querySelector('.popup__input_type_name');
-let inputDescription = formProfile.querySelector('.popup__input_type_description');
-
-function openPopup () {   //  открываем попап и заполняем инпуты данными из профиля
-    popup.classList.add('popup_active')
-    inputName.value = profileName.textContent;
-    inputDescription.value = profileDescription.textContent;
-}
-
-function closePopup () {    // закрываем попап
-    popup.classList.remove('popup_active')
-}
-
-function formSubmitHandler (evt) {  // нажимаем на кнопку сохранить и данные из инпутов сохраняются
-    evt.preventDefault();           // в профиле, после чего попап закрывается
-    profileName.textContent = inputName.value;
-    profileDescription.textContent = inputDescription.value;
-    closePopup()
-}
-
-buttonEditProfile.addEventListener('click', openPopup)
-buttonCloseProfile.addEventListener('click', closePopup)
-formProfile.addEventListener('submit', formSubmitHandler);  // при нажатии на кнопку формы с типом submit (отправки формы)
-
+const content = document.querySelector('.content');
+const buttonEditProfile = content.querySelector('.profile__button-edit-info');  // кнопка редактирования профиля
+const buttonNewCard = content.querySelector('.profile__button-add-picture'); // кнопка добавления карточки
+const popupProfile = document.querySelector('.popup_type_edit-profile');   // выбор модалки профиля
+const popupNewCard = document.querySelector('.popup_type_add-card');    // выбор модалки новой карточки
+const buttonClose = document.querySelectorAll('.popup__button-close');  // кнопка закрытия попапа
+const formProfile = document.querySelector('.popup__form_type_edit-profile');   // форма профиля
+const formNewCard = document.querySelector('.popup__form_type_add-card');
+const profileName = content.querySelector('.profile__name');
+const profileDescription = content.querySelector('.profile__description');
+const inputName = formProfile.querySelector('.popup__input_type_name');
+const inputDescription = formProfile.querySelector('.popup__input_type_description');
+const inputPlace = formNewCard.querySelector('.popup__input_type_place');
+const inputLink = formNewCard.querySelector('.popup__input_type_link');
 const initialCards = [
     {
         name: 'Sheeps',
@@ -65,4 +48,46 @@ function addCard(item) {
     cardsContainer.append(cardsItem);
 }
 
+function openPopupProfile () {   //  открываем попап и заполняем инпуты данными из профиля
+    popupProfile.classList.add('popup_active')
+    inputName.value = profileName.textContent;
+    inputDescription.value = profileDescription.textContent;
+}
+
+function openPopupNewCard () {   //  открываем попап и заполняем инпуты данными из профиля
+    popupNewCard.classList.add('popup_active')
+}
+
+function closePopup () {    // закрываем попап
+    popupProfile.classList.remove('popup_active');
+    popupNewCard.classList.remove('popup_active');
+    inputPlace.value = '';
+    inputLink.value = '';
+}
+
+function formSubmitHandlerProfile (evt) {  // нажимаем на кнопку сохранить и данные из инпутов сохраняются
+    evt.preventDefault();           // в профиле, после чего попап закрывается
+    profileName.textContent = inputName.value;
+    profileDescription.textContent = inputDescription.value;
+    closePopup()
+}
+
+function formSubmitHandlerNewCard (evt) {
+    evt.preventDefault();
+    let cardsItem = cardsTemplate.querySelector('.cards__grid-item').cloneNode(true);
+    cardsItem.querySelector('.cards__title').textContent = inputPlace.value;
+    cardsItem.querySelector('.cards__photo').src = inputLink.value;
+    cardsContainer.prepend(cardsItem);
+    inputPlace.value = '';
+    inputLink.value = '';
+    closePopup()
+}
+
 initialCards.forEach(addCard);
+buttonEditProfile.addEventListener('click', openPopupProfile)
+buttonNewCard.addEventListener('click', openPopupNewCard)
+formProfile.addEventListener('submit', formSubmitHandlerProfile);  // при нажатии на кнопку формы с типом submit (отправки формы)
+formNewCard.addEventListener('submit', formSubmitHandlerNewCard);
+buttonClose.forEach(item => {
+    item.addEventListener('click', closePopup);
+})

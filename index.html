@@ -48,13 +48,24 @@
         </main>
     </div>
 
-    <div class="popup">
+    <div class="popup popup_type_edit-profile">
         <div class="popup__container">
-            <form class="popup__form" name="edit-profile">
+            <form class="popup__form popup__form_type_edit-profile" name="edit-profile">
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <input class="popup__input popup__input_type_name" type="text" name="profile-name" placeholder="Ваше имя" required>
                 <input class="popup__input popup__input_type_description" type="text" name="profile-description" placeholder="Ваш род деятельности" required>
                 <button class="popup__button-save" type="submit">Сохранить</button>
+            </form>
+            <button class="popup__button-close" type="button"></button>
+        </div>
+    </div>
+    <div class="popup popup_type_add-card">
+        <div class="popup__container">
+            <form class="popup__form popup__form_type_add-card" name="edit-profile">
+                <h2 class="popup__title">Новое место</h2>
+                <input class="popup__input popup__input_type_place" type="text" name="profile-name" placeholder="Название" required>
+                <input class="popup__input popup__input_type_link" type="text" name="profile-description" placeholder="Ссылка на картинку" required>
+                <button class="popup__button-save" type="submit">Создать</button>
             </form>
             <button class="popup__button-close" type="button"></button>
         </div>
