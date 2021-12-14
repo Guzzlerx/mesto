@@ -42,10 +42,16 @@ const initialCards = [
 const cardsContainer = document.querySelector('.cards__grid-list');  // ul для карточек
 const cardsTemplate = document.querySelector('.cards-template').content;    //  template card(li)
 
+
 function createCard(item) {
     let cardsItem = cardsTemplate.querySelector('.cards__grid-item').cloneNode(true);   // при добавлении нового эл-та
     cardsItem.querySelector('.cards__title').textContent = item.name;                                 // обязательно снова клонировать
     cardsItem.querySelector('.cards__photo').src = item.link;
+
+    const buttonLike = cardsItem.querySelector('.cards__like');
+    buttonLike.addEventListener('click', () => {
+        buttonLike.classList.toggle('cards__like_active');
+    })
     return cardsItem;
 }
 
@@ -111,9 +117,3 @@ formNewCard.addEventListener('submit', formSubmitHandlerNewCard);
 buttonCloseProfile.addEventListener('click', closePopupProfile);
 buttonCloseNewCard.addEventListener('click', closePopupNewCard);
 
-let buttonLike = document.querySelectorAll('.cards__like');
-buttonLike.forEach(item => {
-    item.addEventListener('click', () => {
-        item.classList.toggle('cards__like_active');
-    })
-})
