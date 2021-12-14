@@ -42,11 +42,19 @@ const initialCards = [
 const cardsContainer = document.querySelector('.cards__grid-list');  // ul для карточек
 const cardsTemplate = document.querySelector('.cards-template').content;    //  template card(li)
 
-function addCard(item) {
-    let cardsItem = cardsTemplate.querySelector('.cards__grid-item').cloneNode(true); // при добавлении нового эл-та
-    cardsItem.querySelector('.cards__title').textContent = item.name;                     // обязательно снова клонировать
+function createCard(item) {
+    let cardsItem = cardsTemplate.querySelector('.cards__grid-item').cloneNode(true);   // при добавлении нового эл-та
+    cardsItem.querySelector('.cards__title').textContent = item.name;                                 // обязательно снова клонировать
     cardsItem.querySelector('.cards__photo').src = item.link;
-    cardsContainer.append(cardsItem);
+    return cardsItem;
+}
+
+function addStartCards(item) {
+    cardsContainer.append(createCard(item));
+}
+
+function addNewCard(item) {
+    cardsContainer.prepend(createCard(item));
 }
 
 function openPopup(popup) {
@@ -86,16 +94,16 @@ function formSubmitHandlerProfile (evt) {  // нажимаем на кнопку
 
 function formSubmitHandlerNewCard (evt) {
     evt.preventDefault();
-    let cardsItem = cardsTemplate.querySelector('.cards__grid-item').cloneNode(true);
-    cardsItem.querySelector('.cards__title').textContent = inputPlace.value;
-    cardsItem.querySelector('.cards__photo').src = inputLink.value;
-    cardsContainer.prepend(cardsItem);
+    const newCard = {};
+    newCard.name = inputPlace.value;
+    newCard.link = inputLink.value;
+    addNewCard(newCard);
     inputPlace.value = '';
     inputLink.value = '';
     closePopupNewCard()
 }
 
-initialCards.forEach(addCard);
+initialCards.forEach(addStartCards);
 buttonEditProfile.addEventListener('click', openPopupProfile);
 buttonNewCard.addEventListener('click', openPopupNewCard);
 formProfile.addEventListener('submit', formSubmitHandlerProfile);  // при нажатии на кнопку формы с типом submit (отправки формы)
@@ -103,7 +111,7 @@ formNewCard.addEventListener('submit', formSubmitHandlerNewCard);
 buttonCloseProfile.addEventListener('click', closePopupProfile);
 buttonCloseNewCard.addEventListener('click', closePopupNewCard);
 
-const buttonLike = document.querySelectorAll('.cards__like');
+let buttonLike = document.querySelectorAll('.cards__like');
 buttonLike.forEach(item => {
     item.addEventListener('click', () => {
         item.classList.toggle('cards__like_active');
