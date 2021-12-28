@@ -1,6 +1,8 @@
+const body = document.querySelector('.body');
 const content = document.querySelector('.content');
 const buttonEditProfile = content.querySelector('.profile__button-edit-info');  // кнопка редактирования профиля
 const buttonNewCard = content.querySelector('.profile__button-add-picture'); // кнопка добавления карточки
+const popupArray = Array.from(document.querySelectorAll('.popup'));         // массив попапов
 const popupProfile = document.querySelector('.popup_type_edit-profile');   // выбор модалки профиля
 const popupNewCard = document.querySelector('.popup_type_add-card');    // выбор модалки новой карточки
 const popupZoomPhoto = document.querySelector('.popup_type_zoom-photo');
@@ -50,8 +52,14 @@ function createCard(item) {
     cardsItem.querySelector('.cards__title').textContent = item.name;                                 // обязательно снова клонировать
     cardsItem.querySelector('.cards__photo').src = item.link;
 
-    cardsItem.querySelector('.cards__like').addEventListener('click', evt => {          // повесили лайк
-        evt.target.classList.toggle('cards__like_active');
+    // cardsItem.querySelector('.cards__like').addEventListener('click', evt => {          // повесили лайк
+    //     evt.target.classList.toggle('cards__like_active');
+    // })
+    cardsContainer.addEventListener('click', evt => {
+        if (evt.target.classList.contains('cards__like')) {
+            evt.target.classList.toggle('cards__like_active')
+        }
+        evt.stopImmediatePropagation()
     })
 
     cardsItem.querySelector('.cards__trash').addEventListener('click', evt => {        // повесили урну
@@ -78,8 +86,12 @@ function addNewCard(item) {
 }
 
 function openPopup(popup) {
+    const buttonSubmit = popup.querySelector('.popup__button-save');
     popup.classList.add('popup_active');
-    document.querySelector('.body').classList.add('body_scroll-off');
+    body.classList.add('body_scroll-off');                  // убрали скролл страницы
+    if (popup.contains(buttonSubmit)) {                                 // сделали сабмит инактивным
+        buttonSubmit.classList.add('popup__button_disabled');           // при каждом открытии формы
+    }
 }
 
 function openPopupProfile () {   //  открываем попап и заполняем инпуты данными из профиля
@@ -98,7 +110,7 @@ function openPopupZoomPhoto () {   //  открываем попап и запо
 
 function closePopup (popup) {    // закрываем попап
     popup.classList.remove('popup_active');
-    document.querySelector('.body').classList.remove('body_scroll-off')
+    document.querySelector('.body').classList.remove('body_scroll-off');
 }
 
 function closePopupProfile () {
@@ -115,15 +127,27 @@ function closePopupZoom () {
     closePopup(popupZoomPhoto);
 }
 
-function formSubmitHandlerProfile (evt) {  // нажимаем на кнопку сохранить и данные из инпутов сохраняются
-    evt.preventDefault();           // в профиле, после чего попап закрывается
-    profileName.textContent = inputName.value;
+function closePopupByEscape (evt) {                 // закрытие попапа клавишей Esc
+    if (evt.key === 'Escape') {
+        popupArray.forEach(popup => {
+            closePopup(popup);
+        })
+    }
+}
+
+function closePopupByOverlayClick (evt, popup) {          // закрытие попапа кликом на фон
+    if ((evt.target === popup )) {
+        closePopup(popup)
+    }
+}
+
+function formSubmitHandlerProfile () {                 // нажимаем на кнопку сохранить и данные из инпутов сохраняются
+    profileName.textContent = inputName.value;         // в профиле, после чего попап закрывается
     profileDescription.textContent = inputDescription.value;
     closePopupProfile()
 }
 
-function formSubmitHandlerNewCard (evt) {
-    evt.preventDefault();
+function formSubmitHandlerNewCard () {
     const newCard = {};
     newCard.name = inputPlace.value;
     newCard.link = inputLink.value;
@@ -139,3 +163,9 @@ formNewCard.addEventListener('submit', formSubmitHandlerNewCard);
 buttonCloseProfile.addEventListener('click', closePopupProfile);
 buttonCloseNewCard.addEventListener('click', closePopupNewCard);
 buttonCloseZoom.addEventListener('click', closePopupZoom);
+body.addEventListener('keydown', closePopupByEscape);
+popupArray.forEach(element => {
+    element.addEventListener('click', evt => {
+        closePopupByOverlayClick(evt, element);
+    })
+})
