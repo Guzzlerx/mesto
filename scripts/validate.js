@@ -13,7 +13,7 @@ const enableValidation = (obj) => {                 // Добавляем слу
 
 const setEventListener = (formElement, obj) => {                                    // Из любой выбранной формы достаем поля и
     const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));  // добавляем им слушателей при каждом символе
-    const buttonSubmit = formElement.querySelector('.popup__button-save');          // введенном или удаленном в поле
+    const buttonSubmit = formElement.querySelector(obj.submitButtonSelector);       // введенном или удаленном в поле
     toggleButtonSubmit(inputList, buttonSubmit, obj);
     inputList.forEach(inputElement => {
         inputElement.addEventListener('input', () => {
@@ -31,23 +31,13 @@ const isValid = (formElement, inputElement, obj) => {               // пров�
     }
 };
 
-const toggleEnterSubmit = evt => {              // функция удаления стандартного сабмита по Enter
-    if (evt.key === 'Enter') {
-        evt.preventDefault();
-    }
-}
-
 const toggleButtonSubmit = (inputList, buttonElement, obj) => {
     if (hasInvalidInput(inputList)) {                               // при значении true
         buttonElement.classList.add(obj.inactiveButtonClass);       // делаем кнопку неактивной
-        inputList.forEach(input => {
-            input.addEventListener('keydown', toggleEnterSubmit);   // убираем стандартный сабмит по Enter
-        })
+        buttonElement.disabled = true;
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
-        inputList.forEach(input => {
-            input.removeEventListener('keydown', toggleEnterSubmit);     // добавляем стандартный сабмит по Enter
-        })
+        buttonElement.disabled = false;
     }
 };
 
@@ -76,7 +66,7 @@ const hideInputError = (formElement, inputElement, obj) => {                // �
 enableValidation ({                         // вызываем функцию передавая аргументом объект (дан по заданию)
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
+    submitButtonSelector: '.popup__button-submit',
     inactiveButtonClass: 'popup__button_disabled',
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
