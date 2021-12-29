@@ -1,29 +1,26 @@
-// включение валидации вызовом enableValidation
-// все настройки передаются при вызове
-const enableValidation = (obj) => {                 // Добавляем слушателя каждой форме
+const enableValidation = (obj) => {                                     // Добавляем слушателя каждой форме
     const formList = Array.from(document.querySelectorAll(obj.formSelector));
-
-    formList.forEach(formElement => {
-        formElement.addEventListener('submit', evt => {
-            evt.preventDefault()
+    formList.forEach((formElement) => {
+        formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
         });
         setEventListener(formElement, obj);
-    })
-}
+    });
+};
 
-const setEventListener = (formElement, obj) => {                                    // Из любой выбранной формы достаем поля и
-    const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));  // добавляем им слушателей при каждом символе
-    const buttonSubmit = formElement.querySelector(obj.submitButtonSelector);       // введенном или удаленном в поле
+const setEventListener = (formElement, obj) => {                    // Из любой выбранной формы достаем поля и
+    const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));   // добавляем им слушателей при каждом символе
+    const buttonSubmit = formElement.querySelector(obj.submitButtonSelector);   // введенном или удаленном в поле
     toggleButtonSubmit(inputList, buttonSubmit, obj);
-    inputList.forEach(inputElement => {
+    inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
             isValid(formElement, inputElement, obj);
             toggleButtonSubmit(inputList, buttonSubmit, obj);
-        })
-    })
+        });
+    });
 };
 
-const isValid = (formElement, inputElement, obj) => {               // проверяем на валидность выбранное поле
+const isValid = (formElement, inputElement, obj) => {                // проверяем на валидность выбранное поле
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, obj);
     } else {
@@ -32,8 +29,8 @@ const isValid = (formElement, inputElement, obj) => {               // пров�
 };
 
 const toggleButtonSubmit = (inputList, buttonElement, obj) => {
-    if (hasInvalidInput(inputList)) {                               // при значении true
-        buttonElement.classList.add(obj.inactiveButtonClass);       // делаем кнопку неактивной
+    if (hasInvalidInput(inputList)) {                           // при значении true
+        buttonElement.classList.add(obj.inactiveButtonClass);   // делаем кнопку неактивной
         buttonElement.disabled = true;
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
@@ -41,33 +38,31 @@ const toggleButtonSubmit = (inputList, buttonElement, obj) => {
     }
 };
 
-const hasInvalidInput = inputList => {                      // если каждое поле валидно - возвращаем false,
-     return inputList.some(input => {                       // если нет - true
-         return !input.validity.valid;
-     })
+const hasInvalidInput = (inputList) => {                // если каждое поле валидно - возвращаем false,
+    return inputList.some((input) => {                  // если нет - true
+        return !input.validity.valid;
+    });
 };
 
-const showInputError = (formElement, inputElement, obj) => {                    // если поле не валидно - добавляем ошибку
-    const inputError = formElement.querySelector(`.${inputElement.id}-error`);  // ошибка пишется в span
+const showInputError = (formElement, inputElement, obj) => {                   // если поле не валидно - добавляем ошибку
+    const inputError = formElement.querySelector(`.${inputElement.id}-error`); // ошибка пишется в span
     inputElement.classList.add(obj.inputErrorClass);
-    inputError.textContent = inputElement.validationMessage;         // пишем в спан браузерный текст ошибки по умолчанию
+    inputError.textContent = inputElement.validationMessage;    // пишем в спан браузерный текст ошибки по умолчанию
     inputError.classList.add(obj.errorClass);
-
 };
 
-const hideInputError = (formElement, inputElement, obj) => {                // валидно - скрываем ошибку
+const hideInputError = (formElement, inputElement, obj) => {            // валидно - скрываем ошибку
     const inputError = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(obj.inputErrorClass);
     inputError.textContent = '';
     inputError.classList.remove(obj.errorClass);
 };
 
-
-enableValidation ({                         // вызываем функцию передавая аргументом объект (дан по заданию)
+enableValidation({                              // вызываем функцию передавая аргументом объект (дан по заданию)
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button-submit',
     inactiveButtonClass: 'popup__button_disabled',
     inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
+    errorClass: 'popup__error_visible',
 });
