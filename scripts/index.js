@@ -61,7 +61,7 @@ function addNewCard(item) {
 function openPopup(popup) {
     popup.classList.add('popup_active');
     body.classList.add('body_scroll-off');      // убрали скролл страницы
-    document.addEventListener('keydown', closePopupByEscape);
+    body.addEventListener('keydown', closePopupByEscape);
     popup.addEventListener('click', closePopupByOverlayClick);
 }
 
@@ -82,7 +82,7 @@ function openPopupZoomPhoto() {     //  открываем попап и зап�
 function closePopup(popup) {        // закрываем попап
     popup.classList.remove('popup_active');
     body.classList.remove('body_scroll-off');
-    document.removeEventListener('keydown', closePopupByEscape);
+    body.removeEventListener('keydown', closePopupByEscape);
     popup.removeEventListener('click', closePopupByOverlayClick);
 }
 

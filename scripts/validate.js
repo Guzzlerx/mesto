@@ -20,7 +20,7 @@ const setEventListener = (formElement, obj) => {                    // Из лю
     });
 };
 
-const isValid = (formElement, inputElement, obj) => {                // проверяем на валидность выбранное поле
+const isValid = (formElement, inputElement, obj) => {           // проверяем на валидность выбранное поле
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, obj);
     } else {
