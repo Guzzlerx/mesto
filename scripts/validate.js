@@ -1,3 +1,12 @@
+export const configValidation = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button-submit',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+}
+
 const enableValidation = (obj) => {                                     // Добавляем слушателя каждой форме
     const formList = Array.from(document.querySelectorAll(obj.formSelector));
     formList.forEach((formElement) => {
@@ -28,15 +37,19 @@ const isValid = (formElement, inputElement, obj) => {           // провер�
     }
 };
 
-const toggleButtonSubmit = (inputList, buttonElement, obj) => {
-    if (hasInvalidInput(inputList)) {                           // при значении true
-        buttonElement.classList.add(obj.inactiveButtonClass);   // делаем кнопку неактивной
-        buttonElement.disabled = true;
+export const toggleButtonSubmit = (inputList, buttonElement, obj) => {
+    if (hasInvalidInput(inputList)) {                                   // при значении true
+        disablePopupButton(buttonElement, obj.inactiveButtonClass)      // делаем кнопку неактивной
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
         buttonElement.disabled = false;
     }
 };
+
+export const disablePopupButton = (buttonElement, disabledButtonClass) => {
+    buttonElement.classList.add(disabledButtonClass);
+    buttonElement.disabled = true;
+}
 
 const hasInvalidInput = (inputList) => {                // если каждое поле валидно - возвращаем false,
     return inputList.some((input) => {                  // если нет - true
@@ -58,11 +71,4 @@ const hideInputError = (formElement, inputElement, obj) => {            // ва�
     inputError.classList.remove(obj.errorClass);
 };
 
-enableValidation({                              // вызываем функцию передавая аргументом объект (дан по заданию)
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button-submit',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible',
-});
+enableValidation(configValidation);
