@@ -1,10 +1,10 @@
 import { initialCards } from './initial-cards.js';
 import { configValidation } from "./validate.js";
-import { disablePopupButton } from "./validate.js";
+import { clearValidation } from "./validate.js";
 
 const body = document.querySelector('.body');
 const content = document.querySelector('.content');
-const buttonEditProfile = content.querySelector('.profile__button-edit-info'); // кнопка редактирования профиля
+const buttonEditProfile = content.querySelector('.profile__button-edit-info'); //кнопка редактирования профиля
 const buttonNewCard = content.querySelector('.profile__button-add-picture'); // кнопка добавления карточки
 const popupArray = Array.from(document.querySelectorAll('.popup'));     // массив всех попапов;
 const popupProfile = document.querySelector('.popup_type_edit-profile'); // выбор модалки профиля
@@ -73,10 +73,12 @@ function openPopupProfile() {       //  открываем попап и зап�
     openPopup(popupProfile);
     inputName.value = profileName.textContent;
     inputDescription.value = profileDescription.textContent;
+    clearValidation(formProfile, configValidation);
 }
 
 function openPopupNewCard() {       //  открываем попап и заполняем инпуты данными из профиля
     openPopup(popupNewCard);
+    clearValidation(formNewCard, configValidation);
 }
 
 function openPopupZoomPhoto(item) {     //  открываем попап и заполняем инпуты данными из профиля
@@ -123,7 +125,6 @@ function closePopupByOverlayClick(evt) {        // закрытие попапа
 function formSubmitHandlerProfile() {               // нажимаем на кнопку сохранить и данные из инпутов сохраняются
     profileName.textContent = inputName.value;      // в профиле, после чего попап закрывается
     profileDescription.textContent = inputDescription.value;
-    resetButtonState(popupProfile);
     closePopupProfile();
 }
 
@@ -133,13 +134,7 @@ function formSubmitHandlerNewCard(evt) {
     newCard.link = inputLink.value;
     addNewCard(newCard);
     evt.target.reset();
-    resetButtonState(popupNewCard);
     closePopupNewCard();
-}
-
-function resetButtonState(popup) {
-    const buttonSubmit = popup.querySelector(configValidation.submitButtonSelector);
-    disablePopupButton(buttonSubmit, configValidation.inactiveButtonClass);
 }
 
 initialCards.forEach(addStartCards);

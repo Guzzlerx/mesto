@@ -17,8 +17,8 @@ const enableValidation = (obj) => {                                     // До�
     });
 };
 
-const setEventListener = (formElement, obj) => {                    // Из любой выбранной формы достаем поля и
-    const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));   // добавляем им слушателей при каждом символе
+const setEventListener = (formElement, obj) => {       // Из любой выбранной формы достаем поля и добавляем им
+    const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));   // слушателей при каждом символе
     const buttonSubmit = formElement.querySelector(obj.submitButtonSelector);   // введенном или удаленном в поле
     toggleButtonSubmit(inputList, buttonSubmit, obj);
     inputList.forEach((inputElement) => {
@@ -39,17 +39,13 @@ const isValid = (formElement, inputElement, obj) => {           // провер�
 
 export const toggleButtonSubmit = (inputList, buttonElement, obj) => {
     if (hasInvalidInput(inputList)) {                                   // при значении true
-        disablePopupButton(buttonElement, obj.inactiveButtonClass)      // делаем кнопку неактивной
+        buttonElement.classList.add(obj.inactiveButtonClass);           // делаем кнопку неактивной
+        buttonElement.disabled = true;
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
         buttonElement.disabled = false;
     }
 };
-
-export const disablePopupButton = (buttonElement, disabledButtonClass) => {
-    buttonElement.classList.add(disabledButtonClass);
-    buttonElement.disabled = true;
-}
 
 const hasInvalidInput = (inputList) => {                // если каждое поле валидно - возвращаем false,
     return inputList.some((input) => {                  // если нет - true
@@ -57,7 +53,7 @@ const hasInvalidInput = (inputList) => {                // если каждое
     });
 };
 
-const showInputError = (formElement, inputElement, obj) => {                   // если поле не валидно - добавляем ошибку
+const showInputError = (formElement, inputElement, obj) => {             // если поле не валидно - добавляем ошибку
     const inputError = formElement.querySelector(`.${inputElement.id}-error`); // ошибка пишется в span
     inputElement.classList.add(obj.inputErrorClass);
     inputError.textContent = inputElement.validationMessage;    // пишем в спан браузерный текст ошибки по умолчанию
@@ -70,5 +66,16 @@ const hideInputError = (formElement, inputElement, obj) => {            // ва�
     inputError.textContent = '';
     inputError.classList.remove(obj.errorClass);
 };
+
+export const clearValidation = (form, obj) => {                 // проверяем форму на валидность при открытии
+    const inputList = Array.from(form.querySelectorAll(obj.inputSelector));  // и скрываем ошибки, если поля пустые
+    const buttonSubmit = form.querySelector(obj.submitButtonSelector);
+    toggleButtonSubmit(inputList, buttonSubmit, obj)
+    inputList.forEach(inputItem => {
+        if (inputItem.value === '' || inputItem.validity.valid === true) {
+            hideInputError(form, inputItem, obj)
+        }
+    })
+}
 
 enableValidation(configValidation);
