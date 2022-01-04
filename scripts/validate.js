@@ -20,7 +20,6 @@ const enableValidation = (obj) => {                                     // До�
 const setEventListener = (formElement, obj) => {       // Из любой выбранной формы достаем поля и добавляем им
     const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));   // слушателей при каждом символе
     const buttonSubmit = formElement.querySelector(obj.submitButtonSelector);   // введенном или удаленном в поле
-    toggleButtonSubmit(inputList, buttonSubmit, obj);
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
             isValid(formElement, inputElement, obj);
@@ -68,13 +67,11 @@ const hideInputError = (formElement, inputElement, obj) => {            // ва�
 };
 
 export const clearValidation = (form, obj) => {                 // проверяем форму на валидность при открытии
-    const inputList = Array.from(form.querySelectorAll(obj.inputSelector));  // и скрываем ошибки, если поля пустые
+    const inputList = Array.from(form.querySelectorAll(obj.inputSelector));  // и скрываем ошибки
     const buttonSubmit = form.querySelector(obj.submitButtonSelector);
-    toggleButtonSubmit(inputList, buttonSubmit, obj)
+    toggleButtonSubmit(inputList, buttonSubmit, obj);
     inputList.forEach(inputItem => {
-        if (inputItem.value === '' || inputItem.validity.valid === true) {
-            hideInputError(form, inputItem, obj)
-        }
+        hideInputError(form, inputItem, obj)
     })
 }
 

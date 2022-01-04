@@ -24,6 +24,8 @@ const inputName = formProfile.querySelector('.popup__input_type_name');
 const inputDescription = formProfile.querySelector('.popup__input_type_description');
 const inputPlace = formNewCard.querySelector('.popup__input_type_place');
 const inputLink = formNewCard.querySelector('.popup__input_type_link');
+const cardPhoto = popupZoomPhoto.querySelector('.popup__photo');
+const cardTitle = popupZoomPhoto.querySelector('.popup__title-zoom');
 const cardsContainer = document.querySelector('.cards__grid-list');     // ul для карточек
 const cardsTemplate = document.querySelector('.cards-template').content;    //  template card(li)
 
@@ -83,11 +85,9 @@ function openPopupNewCard() {       //  открываем попап и зап�
 
 function openPopupZoomPhoto(item) {     //  открываем попап и заполняем инпуты данными из профиля
     openPopup(popupZoomPhoto);
-    const itemPhoto = popupZoomPhoto.querySelector('.popup__photo');
-    const itemTitle = popupZoomPhoto.querySelector('.popup__title-zoom');
-    itemPhoto.src = item.link;
-    itemPhoto.alt = `Фотография: '${item.name}'`;
-    itemTitle.textContent = item.name;
+    cardPhoto.src = item.link;
+    cardPhoto.alt = `Фотография: '${item.name}'`;
+    cardTitle.textContent = item.name;
 }
 
 function closePopup(popup) {        // закрываем попап
@@ -122,13 +122,13 @@ function closePopupByOverlayClick(evt) {        // закрытие попапа
     }
 }
 
-function formSubmitHandlerProfile() {               // нажимаем на кнопку сохранить и данные из инпутов сохраняются
+function handleFormProfileSubmit() {               // нажимаем на кнопку сохранить и данные из инпутов сохраняются
     profileName.textContent = inputName.value;      // в профиле, после чего попап закрывается
     profileDescription.textContent = inputDescription.value;
     closePopupProfile();
 }
 
-function formSubmitHandlerNewCard(evt) {
+function handleFormNewCardSubmit(evt) {
     const newCard = {};
     newCard.name = inputPlace.value;
     newCard.link = inputLink.value;
@@ -140,8 +140,8 @@ function formSubmitHandlerNewCard(evt) {
 initialCards.forEach(addStartCards);
 buttonEditProfile.addEventListener('click', openPopupProfile);
 buttonNewCard.addEventListener('click', openPopupNewCard);
-formProfile.addEventListener('submit', formSubmitHandlerProfile); // при нажатии на кнопку
-formNewCard.addEventListener('submit', formSubmitHandlerNewCard); // формы с типом submit (отправки формы)
+formProfile.addEventListener('submit', handleFormProfileSubmit); // при нажатии на кнопку
+formNewCard.addEventListener('submit', handleFormNewCardSubmit); // формы с типом submit (отправки формы)
 buttonCloseProfile.addEventListener('click', closePopupProfile);
 buttonCloseNewCard.addEventListener('click', closePopupNewCard);
 buttonCloseZoom.addEventListener('click', closePopupZoom);
