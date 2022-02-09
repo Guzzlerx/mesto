@@ -1,17 +1,9 @@
 export default class Card {
-    constructor(data, cardSelector, openPopupZoomPhoto) {
-        this._image = data.link;
-        this._title = data.name;
+    constructor({ link, place }, cardSelector, { handleCardClick }) {
+        this._image = link;
+        this._title = place;
         this._cardSelector = cardSelector;
-        this._openPopupZoomPhoto = openPopupZoomPhoto;
-    }
-
-    getImage() {
-        return this._image;
-    }
-
-    getTitle() {
-        return this._title;
+        this._openPopupZoomPhoto = handleCardClick;
     }
 
     _getTemplate() {
@@ -38,14 +30,14 @@ export default class Card {
     }
 
     _setEventListeners() {
-        this._likeButton.addEventListener('click', () => {
+        this._likeButton.addEventListener('click', ()=> {
             this._likeCard();
         })
         this._element.querySelector('.cards__trash').addEventListener('click', () => {
             this._deleteCard();
         })
         this._cardImage.addEventListener('click', () => {
-            this._openPopupZoomPhoto(this);
+            this._openPopupZoomPhoto(this._image, this._title);
         })
     }
 

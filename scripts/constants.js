@@ -1,26 +1,26 @@
 export const initialCards = [
     {
-        name: 'Sheeps',
+        place: 'Sheeps',
         link: './images/there_are_more_sheep_than_people.jpg'
     },
     {
-        name: 'Night sky',
+        place: 'Night sky',
         link: './images/night_sky_at_china.jpg'
     },
     {
-        name: 'A small model',
+        place: 'A small model',
         link: './images/a_very_small_model.jpg'
     },
     {
-        name: 'Quiet woods',
+        place: 'Quiet woods',
         link: './images/a_walk_in_the_quiet_woods.jpg'
     },
     {
-        name: 'Salmon River',
+        place: 'Salmon River',
         link: './images/old_salmon_river.jpg'
     },
     {
-        name: 'A lonely island',
+        place: 'A lonely island',
         link: './images/the_lonely_island.jpg'
     }
 ];
@@ -33,3 +33,9 @@ export const configValidation = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
 };
+
+export const buttonEditProfile = document.querySelector('.profile__button-edit-info'); //кнопка редактирования профиля
+export const buttonNewCard = document.querySelector('.profile__button-add-picture'); // кнопка добавления карточки
+export const formProfile = document.querySelector('.popup__form_type_edit-profile');   // форма профиля
+export const formNewCard = document.querySelector('.popup__form_type_add-card');   // форма новой карточки
+export const cardsContainer = document.querySelector('.cards__grid-list');     // ul для карточек
