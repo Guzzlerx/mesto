@@ -1,11 +1,14 @@
-import { initialCards, configValidation, buttonEditProfile, cardsContainer,
-    formNewCard, buttonNewCard, formProfile } from './constants.js';
-import Card from './Card.js';
-import FormValidator from "./FormValidator.js";
-import Section from "./Section.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from "./PopupWithForm.js";
-import UserInfo from "./UserInfo.js";
+import './styles/index.css';
+import {
+    initialCards, configValidation, buttonEditProfile, cardsContainer,
+    formNewCard, buttonNewCard, formProfile, inputTypeDescription,
+    inputTypeName} from './scripts/utils/constants.js';
+import Card from './scripts/components/Card.js';
+import FormValidator from "./scripts/components/FormValidator.js";
+import Section from "./scripts/components/Section.js";
+import PopupWithImage from "./scripts/components/PopupWithImage.js";
+import PopupWithForm from "./scripts/components/PopupWithForm.js";
+import UserInfo from "./scripts/components/UserInfo.js";
 
 const formNewCardValidator = new FormValidator(configValidation, formNewCard);
 const formProfileInfoValidator = new FormValidator(configValidation, formProfile);
@@ -31,7 +34,7 @@ buttonNewCard.addEventListener('click', () => {
                 handleCardClick: (image, place) => {
                     const newPopup = new PopupWithImage('.popup_type_zoom-photo', { image, place });
                     newPopup.open();
-                    newPopup.setEventListeners()
+                    newPopup.setEventListeners();
                 }});
             const cardElement = newCard.generateElement();
             cardsContainer.prepend(cardElement);
@@ -46,18 +49,22 @@ buttonNewCard.addEventListener('click', () => {
 })
 
 buttonEditProfile.addEventListener('click', () => {
+    const userInfo = new UserInfo({
+        userName: '.profile__name',
+        userDescription: '.profile__description'
+    });
+
     const popupEditProfile = new PopupWithForm('.popup_type_edit-profile', {
         handleFormSubmit: inputValues => {
-            const userInfo = new UserInfo({
-                userName: '.profile__name',
-                userDescription: '.profile__description'
-            })
             userInfo.setUserInfo(inputValues);
         }
-    })
+    });
 
     popupEditProfile.setEventListeners();
     popupEditProfile.open();
+
+    inputTypeName.value = userInfo.getUserInfo().name;
+    inputTypeDescription.value = userInfo.getUserInfo().description;
 
     formProfileInfoValidator.enableValidation();
     formProfileInfoValidator.resetValidation();

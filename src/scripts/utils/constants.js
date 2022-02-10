@@ -1,27 +1,34 @@
+import sheepsImage from '../../images/there_are_more_sheep_than_people.jpg';
+import nightSkyImage from '../../images/night_sky_at_china.jpg';
+import smallModelImage from '../../images/a_very_small_model.jpg';
+import quietWoodsImage from '../../images/a_walk_in_the_quiet_woods.jpg';
+import salmonRiverImage from '../../images/old_salmon_river.jpg';
+import lonelyIslandImage from '../../images/the_lonely_island.jpg';
+
 export const initialCards = [
     {
         place: 'Sheeps',
-        link: './images/there_are_more_sheep_than_people.jpg'
+        link: sheepsImage
     },
     {
         place: 'Night sky',
-        link: './images/night_sky_at_china.jpg'
+        link: nightSkyImage
     },
     {
         place: 'A small model',
-        link: './images/a_very_small_model.jpg'
+        link: smallModelImage
     },
     {
         place: 'Quiet woods',
-        link: './images/a_walk_in_the_quiet_woods.jpg'
+        link: quietWoodsImage
     },
     {
         place: 'Salmon River',
-        link: './images/old_salmon_river.jpg'
+        link: salmonRiverImage
     },
     {
         place: 'A lonely island',
-        link: './images/the_lonely_island.jpg'
+        link: lonelyIslandImage
     }
 ];
 
@@ -39,3 +46,5 @@ export const buttonNewCard = document.querySelector('.profile__button-add-pictur
 export const formProfile = document.querySelector('.popup__form_type_edit-profile');   // форма профиля
 export const formNewCard = document.querySelector('.popup__form_type_add-card');   // форма новой карточки
 export const cardsContainer = document.querySelector('.cards__grid-list');     // ul для карточек
+export const inputTypeName = document.querySelector('.popup__input_type_name');
+export const inputTypeDescription = document.querySelector('.popup__input_type_description');

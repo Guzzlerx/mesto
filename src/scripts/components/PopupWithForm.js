@@ -18,13 +18,9 @@ export default class PopupWithForm extends Popup {
         return this._formValues;
     }
 
-    open({}) {
-        super.open();
-    }
-
     close() {
-        this._popupForm.reset();
         super.close();
+        this._popupForm.reset();
     }
 
     _handleSubmit = evt => {
