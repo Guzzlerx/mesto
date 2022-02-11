@@ -45,6 +45,5 @@ export const buttonEditProfile = document.querySelector('.profile__button-edit-i
 export const buttonNewCard = document.querySelector('.profile__button-add-picture'); // кнопка добавления карточки
 export const formProfile = document.querySelector('.popup__form_type_edit-profile');   // форма профиля
 export const formNewCard = document.querySelector('.popup__form_type_add-card');   // форма новой карточки
-export const cardsContainer = document.querySelector('.cards__grid-list');     // ul для карточек
 export const inputTypeName = document.querySelector('.popup__input_type_name');
 export const inputTypeDescription = document.querySelector('.popup__input_type_description');

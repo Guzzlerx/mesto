@@ -30,7 +30,7 @@ export default class Card {
     }
 
     _setEventListeners() {
-        this._likeButton.addEventListener('click', ()=> {
+        this._likeButton.addEventListener('click', () => {
             this._likeCard();
         })
         this._element.querySelector('.cards__trash').addEventListener('click', () => {
