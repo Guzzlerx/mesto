@@ -7,27 +7,27 @@ import lonelyIslandImage from '../../images/the_lonely_island.jpg';
 
 export const initialCards = [
     {
-        place: 'Sheeps',
+        name: 'Sheeps',
         link: sheepsImage
     },
     {
-        place: 'Night sky',
+        name: 'Night sky',
         link: nightSkyImage
     },
     {
-        place: 'A small model',
+        name: 'A small model',
         link: smallModelImage
     },
     {
-        place: 'Quiet woods',
+        name: 'Quiet woods',
         link: quietWoodsImage
     },
     {
-        place: 'Salmon River',
+        name: 'Salmon River',
         link: salmonRiverImage
     },
     {
-        place: 'A lonely island',
+        name: 'A lonely island',
         link: lonelyIslandImage
     }
 ];

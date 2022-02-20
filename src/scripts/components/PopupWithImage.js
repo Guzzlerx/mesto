@@ -7,10 +7,10 @@ export default class PopupWithImage extends Popup {
         this._popupTitle = this._popup.querySelector('.popup__title-zoom');
     }
 
-    open(image, place) {
+    open(image, name) {
         super.open();
         this._popupImage.src = image;
         this._popupImage.alt = `Фотография: '${image}'`;
-        this._popupTitle.textContent = place;
+        this._popupTitle.textContent = name;
     }
 }

@@ -10,6 +10,7 @@ module.exports = {
         filename: "main.js",
         publicPath: ""
     },
+    devtool: 'inline-source-map',
     devServer: {
         static: path.resolve(__dirname, "./dist"),
         port: "5500",
