@@ -42,24 +42,20 @@ const myPageApi = new Api({
     "Content-Type": "application/json",
   },
 });
+// "ba78031e0402196520c06f61"
 
-const cardList = Promise.resolve(
-  myPageApi.getInitialCards().then((data) => {
-    const cardList = new Section(
-      {
-        data,
-        renderer: (item) => {
-          return createCard(item);
-        },
-      },
-      ".cards__grid-list"
-    );
-    return cardList;
-  })
-);
+const userId = myPageApi.getUserInfo()
+    .then(data => data._id)
+    .catch(err => console.error(err));
+
+const cardList = new Section({
+  renderer: item => {
+    return createCard(item);
+  }
+}, '.cards__grid-list')
 
 function createCard(item) {
-  const newCard = new Card(item, ".cards-template", {
+  const newCard = new Card(item, ".cards-template", userId, {
     handleCardClick: (image, name) => {
       popupWithImage.open(image, name);
     },
@@ -101,7 +97,7 @@ const popupNewCard = new PopupWithForm(".popup_type_add-card", {
       .addNewCard(formValues)
       .then(({ name, link, likes, owner, _id }) => {
         const cardElement = createCard({ name, link, likes, owner, _id });
-        cardList.then((cardList) => cardList.addItem(cardElement));
+        cardList.addItem(cardElement);
       })
       .finally(() => {
         renderLoading(false, popupButtonSubmit, "Создать");
@@ -181,9 +177,9 @@ myPageApi.getUserInfo().then((data) => {
   profileInfo.setUserAvatar(data);
 });
 
-cardList.then((res) => {
-  res.renderItem();
-});
+myPageApi.getInitialCards().then(initialCards => {
+  cardList.renderItem(initialCards);
+})
 
 popupWithImage.setEventListeners();
 popupNewCard.setEventListeners();

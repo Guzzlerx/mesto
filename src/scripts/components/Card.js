@@ -1,7 +1,7 @@
 export default class Card {
   constructor(
     { link, name, likes, owner, _id },
-    cardSelector,
+    cardSelector, userId,
     { handleCardClick, handleTrashClick, handleLikeClick }
   ) {
     this._image = link;
@@ -14,6 +14,7 @@ export default class Card {
     this._openPopupZoomPhoto = handleCardClick;
     this._openPopupWithConfirmation = handleTrashClick;
     this._handleLikeClick = handleLikeClick;
+    this._userId = userId;
   }
 
   _getTemplate() {
@@ -48,7 +49,7 @@ export default class Card {
   }
 
   _checkCardOwner() {
-    if (this._cardOwnerId !== "ba78031e0402196520c06f61") {
+    if (this._cardOwnerId !== 'ba78031e0402196520c06f61') {
       this._deleteCardRemover();
       return false;
     }
