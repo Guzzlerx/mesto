@@ -8,23 +8,22 @@ export default class Api {
   getUserInfo() {
     return fetch(this._profileUrl, {
       headers: this._headers,
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 
   _checkResponseStatus(res) {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`)
-        .catch((err) =>
-      console.error(err)
-    );
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   getInitialCards() {
     return fetch(this._cardsUrl, {
       headers: this._headers,
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 
   setUserInfo(userInfoObj) {
@@ -32,7 +31,8 @@ export default class Api {
       headers: this._headers,
       method: "PATCH",
       body: JSON.stringify(userInfoObj),
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 
   addNewCard(cardDataObj) {
@@ -40,14 +40,16 @@ export default class Api {
       headers: this._headers,
       method: "POST",
       body: JSON.stringify(cardDataObj),
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 
   deleteCard(id) {
     return fetch(`https://mesto.nomoreparties.co/v1/cohort36/cards/${id}`, {
       headers: this._headers,
       method: "DELETE",
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 
   likeCard(id, method) {
@@ -57,7 +59,8 @@ export default class Api {
         headers: this._headers,
         method: method,
       }
-    ).then((res) => this._checkResponseStatus(res));
+    )
+        .then((res) => this._checkResponseStatus(res));
   }
 
   setUserAvatar(urlObj) {
@@ -65,6 +68,7 @@ export default class Api {
       headers: this._headers,
       method: "PATCH",
       body: JSON.stringify(urlObj),
-    }).then((res) => this._checkResponseStatus(res));
+    })
+        .then((res) => this._checkResponseStatus(res));
   }
 }

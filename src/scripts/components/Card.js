@@ -49,7 +49,7 @@ export default class Card {
   }
 
   _checkCardOwner() {
-    if (this._cardOwnerId !== 'ba78031e0402196520c06f61') {
+    if (this._cardOwnerId !== this._userId) {
       this._deleteCardRemover();
       return false;
     }
@@ -72,8 +72,8 @@ export default class Card {
   }
 
   _isCardLiked() {
-    return this._likesArray.some((user) => {
-      return user._id === "ba78031e0402196520c06f61";
+    return this._likesArray.some(user => {
+      return user._id === this._userId;
     });
   }
 
@@ -85,7 +85,12 @@ export default class Card {
     this._likeButton.classList.add("cards__like-btn_active");
   }
 
+  hasButtonAdditionalClass() {
+    return this._likeButton.classList.contains('cards__like-btn_active');
+  }
+
   _deleteCardRemover() {
     this._cardRemover.remove();
+    this._cardRemover = null;
   }
 }

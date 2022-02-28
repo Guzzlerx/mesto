@@ -19,6 +19,7 @@ import UserInfo from "../scripts/components/UserInfo.js";
 import Api from "../scripts/components/Api.js";
 import PopupWithConfirmation from "../scripts/components/PopupWithConfirmation";
 
+let ownerId;
 const formNewCardValidator = new FormValidator(configValidation, formNewCard);
 const formProfileInfoValidator = new FormValidator(
   configValidation,
@@ -28,13 +29,11 @@ const formSetAvatarValidator = new FormValidator(
   configValidation,
   formSetAvatar
 );
-
 const profileInfo = new UserInfo({
   userName: ".profile__name",
   userDescription: ".profile__description",
   userAvatar: ".profile__avatar",
 });
-
 const myPageApi = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort36/users/me",
   headers: {
@@ -42,11 +41,6 @@ const myPageApi = new Api({
     "Content-Type": "application/json",
   },
 });
-// "ba78031e0402196520c06f61"
-
-const userId = myPageApi.getUserInfo()
-    .then(data => data._id)
-    .catch(err => console.error(err));
 
 const cardList = new Section({
   renderer: item => {
@@ -55,7 +49,7 @@ const cardList = new Section({
 }, '.cards__grid-list')
 
 function createCard(item) {
-  const newCard = new Card(item, ".cards-template", userId, {
+  const newCard = new Card(item, ".cards-template", ownerId, {
     handleCardClick: (image, name) => {
       popupWithImage.open(image, name);
     },
@@ -63,26 +57,25 @@ function createCard(item) {
       popupDeleteCard.open(cardElement, cardId);
     },
     handleLikeClick: (cardLikeNumber, cardId) => {
-      myPageApi
-        .getInitialCards()
-        .then((cardsArray) => {
-          return cardsArray.find((card) => card._id === cardId);
+      if (newCard.hasButtonAdditionalClass()) {
+          myPageApi.likeCard(cardId, "DELETE")
+              .then((res) => {
+                newCard.dislikeCard();
+                cardLikeNumber.textContent = res.likes.length;
         })
-        .then((card) => {
-          if (
-            card.likes.some((user) => user._id === "ba78031e0402196520c06f61")
-          ) {
-            myPageApi.likeCard(card._id, "DELETE").then((res) => {
-              newCard.dislikeCard();
-              cardLikeNumber.textContent = res.likes.length;
-            });
-          } else {
-            myPageApi.likeCard(card._id, "PUT").then((res) => {
-              newCard.likeCard();
-              cardLikeNumber.textContent = res.likes.length;
-            });
-          }
-        });
+              .catch(err => {
+                console.error(err);
+            })
+      } else {
+          myPageApi.likeCard(cardId, "PUT")
+              .then((res) => {
+                  newCard.likeCard();
+                  cardLikeNumber.textContent = res.likes.length;
+        })
+              .catch(err => {
+                  console.error(err);
+            })
+      }
     },
   });
   return newCard.generateElement();
@@ -98,6 +91,10 @@ const popupNewCard = new PopupWithForm(".popup_type_add-card", {
       .then(({ name, link, likes, owner, _id }) => {
         const cardElement = createCard({ name, link, likes, owner, _id });
         cardList.addItem(cardElement);
+        popupNewCard.close();
+      })
+      .catch(err => {
+        console.error(err);
       })
       .finally(() => {
         renderLoading(false, popupButtonSubmit, "Создать");
@@ -112,6 +109,10 @@ const popupEditProfile = new PopupWithForm(".popup_type_edit-profile", {
       .setUserInfo(formValues)
       .then((userInfo) => {
         profileInfo.setUserInfo(userInfo);
+        popupEditProfile.close();
+      })
+      .catch(err => {
+        console.error(err);
       })
       .finally(() => {
         renderLoading(false, popupButtonSubmit, "Сохранить");
@@ -126,6 +127,10 @@ const popupSetAvatar = new PopupWithForm(".popup_type_set-avatar", {
       .setUserAvatar(formValue)
       .then((res) => {
         profileInfo.setUserAvatar(res);
+        popupSetAvatar.close();
+      })
+      .catch(err => {
+        console.error(err);
       })
       .finally(() => {
         renderLoading(false, popupButtonSubmit, "Сохранить");
@@ -135,10 +140,15 @@ const popupSetAvatar = new PopupWithForm(".popup_type_set-avatar", {
 
 const popupDeleteCard = new PopupWithConfirmation(".popup_type_confirm", {
   handleFormSubmit: (element, id) => {
-    myPageApi.deleteCard(id).then(() => {
-      element.remove();
-    });
-  },
+    myPageApi.deleteCard(id)
+        .then(() => {
+          element.remove();
+          element = null;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
 });
 
 function renderLoading(isLoading, buttonSubmit, buttonSubmitText) {
@@ -148,6 +158,20 @@ function renderLoading(isLoading, buttonSubmit, buttonSubmitText) {
     buttonSubmit.textContent = buttonSubmitText;
   }
 }
+
+Promise.all([myPageApi.getUserInfo(), myPageApi.getInitialCards()])
+    .then(data => {
+        const [ userInfo, initialCards ] = data;
+        ownerId = userInfo._id;
+
+        profileInfo.setUserInfo(userInfo);
+        profileInfo.setUserAvatar(userInfo);
+
+        cardList.renderItem(initialCards);
+    })
+    .catch(err => {
+        console.error(err);
+    });
 
 buttonEditProfile.addEventListener("click", () => {
   const { name, about } = profileInfo.getUserInfo();
@@ -171,15 +195,6 @@ buttonAvatar.addEventListener("click", () => {
 
   formSetAvatarValidator.resetValidation();
 });
-
-myPageApi.getUserInfo().then((data) => {
-  profileInfo.setUserInfo(data);
-  profileInfo.setUserAvatar(data);
-});
-
-myPageApi.getInitialCards().then(initialCards => {
-  cardList.renderItem(initialCards);
-})
 
 popupWithImage.setEventListeners();
 popupNewCard.setEventListeners();
